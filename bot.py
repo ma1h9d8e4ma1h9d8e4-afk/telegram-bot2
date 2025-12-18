@@ -1,8 +1,8 @@
 from telegram import Update, ReplyKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes
 
-# ضع توكن البوت هنا
-TOKEN = "8445342473:AAGeKZXgqeWlQ8GtxeBg5w_F7z35bBvcNro
+# ضع التوكن الخاص ببوتك هنا
+TOKEN = "8445342473:AAGeKZXgqeWlQ8GtxeBg5w_F7z35bBvcNro"
 
 # قائمة الأزرار
 keyboard = [
@@ -14,13 +14,14 @@ keyboard = [
 
 reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
 
-# الرد عند الضغط على أي زر
+# الرد عند الضغط على /start
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
-        "اختر الخدمة المطلوبة من القائمة أدناه:", 
+        "اختر الخدمة المطلوبة من القائمة أدناه:",
         reply_markup=reply_markup
     )
 
+# الرد عند اختيار أي زر
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     response = (
         "🔹 تم استلام اختيارك.\n\n"
@@ -29,7 +30,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "⚠️ بعد الإرسال يمكنك التواصل مع الشيخ.\n"
         "ملاحظة: لسنا مسؤولين عن فقدان الأموال بدون رقم عملية التحويل."
     )
-    await update.message.reply_text(response)
+    await update.message.reply_text(response, parse_mode="Markdown")
 
 # إعداد التطبيق
 app = ApplicationBuilder().token(TOKEN).build()
@@ -40,4 +41,5 @@ app.add_handler(MessageHandler(filters.TEXT & (~filters.COMMAND), handle_message
 
 print("Bot is running...")
 
+# تشغيل البوت
 app.run_polling()
